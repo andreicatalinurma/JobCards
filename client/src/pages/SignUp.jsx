@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import OAuth from '../components/OAuth';
 
 export default function SignUp() {
@@ -30,6 +30,8 @@ export default function SignUp() {
         setError(true);
         return;
       }
+      //redirect to sign-in page after successful sign-up
+      navigate('/sign-in');
     } catch (error) {
       setLoading(false);
       setError(true);

@@ -1,7 +1,5 @@
 import express from 'express';
-import { signup } from '../controllers/auth.controller.js';
-import { signin } from '../controllers/auth.controller.js';
-import { google } from '../controllers/auth.controller.js';
+import { signup, signin, signout, google } from '../controllers/auth.controller.js';
 
 
 //create express router 
@@ -13,5 +11,7 @@ router.post('/signup', signup);
 router.post('/signin', signin);
 //create route for google signin
 router.post('/google', google);
+//create route for signout
+router.get('/signout', signout);
 
 export default router;

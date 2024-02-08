@@ -90,3 +90,8 @@ export const signin = async (req, res, next) => {
         }
     }
 
+    //sign out the user
+export const signout = (req, res) => {
+    //clear the cookie and send a response back to the client
+    res.clearCookie('access_token').status(200).json('Signed out successfully!')
+}
