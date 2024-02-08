@@ -24,7 +24,7 @@ export default function OAuth() {
         body: JSON.stringify({
           name: result.user.displayName,
           email: result.user.email,
-          phote: result.user.photoURL,
+          photo: result.user.photoURL,
         }),
       });
       // get the data from the backend 
