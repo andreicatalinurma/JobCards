@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
+import cookieParser from 'cookie-parser';
 dotenv.config();
 
 
@@ -13,10 +14,12 @@ mongoose.connect(process.env.MONGO)
 }).catch((err) => {
     console.log(err)
 })
-const app = express();
 
-//allow express to parse incoming json data 
+const app = express();
+ 
+
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/backend/user", userRoutes);
 app.use("/backend/auth", authRoutes);
