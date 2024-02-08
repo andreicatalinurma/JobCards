@@ -9,6 +9,6 @@ const router = express.Router();
 router.get('/', test);
 
 //create route for update user
-router.put('/:id', verifyToken, updateUser);
+router.post('/update/:id', verifyToken, updateUser);
 
 export default router;

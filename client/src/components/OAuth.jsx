@@ -3,10 +3,13 @@ import { GoogleAuthProvider, signInWithPopup, getAuth} from 'firebase/auth';
 import { app } from '../firebase.js';
 import { useDispatch } from 'react-redux';
 import { signInSuccess } from '../redux/user/userSlice';
+import {useNavigate} from 'react-router-dom';
 
 export default function OAuth() {
-    //create dispatch to dispatch actions to the store 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  //function to handle google sign in
   const handleGoogleClick = async () => {
     try {
         //create google auth provider 
@@ -30,6 +33,8 @@ export default function OAuth() {
       // get the data from the backend 
       const data = await res.json();
       dispatch(signInSuccess(data));
+        //navigate to the home page
+        navigate('/');
     } catch (error) {
       console.log('could not login with google', error)
     }
