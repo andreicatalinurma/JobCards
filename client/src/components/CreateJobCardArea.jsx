@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 
 export default function CreateJobCardArea() {
+  // State to store the job details from the input
     const [job, setJob] = useState({
         title: '',
         details: '',
@@ -9,18 +10,50 @@ export default function CreateJobCardArea() {
     });
 
     function handleChange(e) {
-       
+       // Destructuring the name and value properties off of event.target
+       const { name, value } = e.target;
+       // Updating the input's state
+       setJob(prevJob => {
+           return {
+               ...prevJob,
+
+               [name]: value
+           };
+       });
     }
     
     async function  submitJob(e)  {
-        
+      e.preventDefault();
+      try {
+        //send a post request to the server to add the job to the database
+          if(job.title !== '' && job.details !== '') {
+            const response = await fetch('/backend/job/submitjob', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(job)
+          });
+
+          const data = await response.json();
+          //if the job has been added, clear the input fields
+          if(data === 'Job has been added') {
+            setJob({
+              title: '',
+              details: '',
+            });
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
     
 
   return (
     <div>
       <form className='relative bg-white max-w-lg p-4 mx-auto my-8 rounded-lg shadow-lg'>
-        <input className='w-full border-none resize-none p-1 outline-none text-3xl font-serif' 
+        <input className='w-full border-none resize-none p-1 outline-none text-3xl font-bold font-serif' 
         id='title'
         name='title' 
         onChange={handleChange} 

@@ -1,6 +1,11 @@
 import React, { useState} from 'react';
 import { Link } from 'react-router-dom';
 
+//array to store id and title of job to be edited
+var idTitle = [];
+//function to store id and title of job to be edited
+export function getValues() { return idTitle;}
+
 export default function JobCards(props) {
     //set the state for the strike through effect on the job
     const [strikeThrough, setStrikeThrough] = useState(props.completed);
@@ -27,17 +32,17 @@ export default function JobCards(props) {
     }
 
     function handleDelete(id) {
-        //delete the job
+        //ask user to confirm delete
         let confirmDelete = window.confirm('Are you sure you want to delete this job?');
         try {
+            //if user confirms delete, send a delete request to the server
             if(confirmDelete) {
                 const response = fetch(`/backend/job/deletejob/${id}`, {  
                     method: 'DELETE',            
                 });
-                const data = response.json();
-                console.log(data);
+                
             } else {
-                alert('Delte cancelled');
+                alert('Delete cancelled');
             }
         } catch (error) {
             console.log(error);
@@ -47,6 +52,7 @@ export default function JobCards(props) {
 
     function handleEdit() {
         //edit the job
+        idTitle = props;
     }
 
 

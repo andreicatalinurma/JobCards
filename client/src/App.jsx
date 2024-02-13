@@ -11,12 +11,15 @@ import JobCards from './pages/JobCards';
 import CreateJobCardArea from './components/CreateJobCardArea';
 
 export default function App() {
+  //state to store the jobs from the server
   const [jobs, setJobs] = useState([]);
 
   const getJobs = async () => {
+    //fetch the jobs from the server and store them in the state
     const response = await fetch('/backend/job/getjobs');
     const data = await response.json();
     setJobs(data);
+    getJobs();
   }
 
   useEffect(() => {
