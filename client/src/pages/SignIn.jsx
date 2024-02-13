@@ -34,8 +34,8 @@ export default function SignIn() {
         return;
       }
       dispatch(signInSuccess(data));
-      //if no errors will navigate to home page
-      navigate('/');
+      //if no errors will navigate 
+      navigate('/jobcards');
     } catch (error) {
       dispatch(signInFailure(error))
     }
