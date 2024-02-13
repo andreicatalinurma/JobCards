@@ -1,0 +1,27 @@
+[33mf70f161[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{0}: reset: moving to HEAD^
+[33mcb229ce[m HEAD@{1}: commit: complete jobcards functionality
+[33mf70f161[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{2}: commit: create Footer
+[33m17b5f0d[m HEAD@{3}: commit: add functionality for sign out
+[33m61b8e62[m HEAD@{4}: commit: add functionality to delete user
+[33m41bf090[m HEAD@{5}: commit: complete functionality for user update
+[33m95c27ed[m HEAD@{6}: commit: create user backend route for update
+[33m748d42d[m HEAD@{7}: commit: complete image functionality for upload
+[33ma11ac63[m HEAD@{8}: commit: create UI for profile page
+[33m413ea6a[m HEAD@{9}: commit: make profile private
+[33m09a1d36[m HEAD@{10}: commit: create and add OAuth component
+[33me0e2e10[m HEAD@{11}: commit: add redux functionality
+[33mb79d50a[m HEAD@{12}: commit: add redux functionality
+[33mfcb1227[m HEAD@{13}: commit: create UI and functionality for sign in page
+[33m6dd4a80[m HEAD@{14}: commit: create signin backend route
+[33m7571b61[m HEAD@{15}: commit: complete functionality for sign up page
+[33m32cd7ef[m HEAD@{16}: commit: create UI for sign up page
+[33mbd28563[m HEAD@{17}: commit: add a middleware and functionality to handle error
+[33m92cedaf[m HEAD@{18}: commit: create signup backend route
+[33mabf11ba[m HEAD@{19}: commit: create the db user model
+[33ma518cee[m HEAD@{20}: commit: connect db
+[33md44d18f[m HEAD@{21}: commit: create the server
+[33mccab652[m HEAD@{22}: commit: create component header
+[33m373835f[m HEAD@{23}: commit: create pages and add routes
+[33m2efcffe[m HEAD@{24}: Branch: renamed refs/heads/main to refs/heads/main
+[33m2efcffe[m HEAD@{26}: Branch: renamed refs/heads/master to refs/heads/main
+[33m2efcffe[m HEAD@{28}: commit (initial): install react js and tailwind css and create first template

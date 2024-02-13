@@ -7,7 +7,7 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyA8ZnQ9J6-xCXrsrNcq3tkwraXshMVrrLg",
+  apiKey: process.env.VITE_FIREBASE_API_KEY,
   authDomain: "mern-auth-project-e9619.firebaseapp.com",
   projectId: "mern-auth-project-e9619",
   storageBucket: "mern-auth-project-e9619.appspot.com",
