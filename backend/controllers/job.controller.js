@@ -1,6 +1,6 @@
 import { collection, doc, getDocs, updateDoc, deleteDoc, addDoc } from 'firebase/firestore';
 import { txtDB } from '../firebase.js';
-import { getStorage, ref, deleteObject, listAll } from 'firebase/storage';
+import { ref, listAll, getStorage, deleteObject } from 'firebase/storage';
 
 
 
@@ -40,6 +40,26 @@ export const strikejob = async (req, res) => {
         res.status(500).json(error);
     }
 }
+
+//create function to update the job in the database
+export const updatejob = async (req, res) => {
+  try {
+      const id = req.params.id;
+      const title = req.body.title;
+      const details = req.body.details;
+
+      //send a put request to the server to update the job title and details
+      const jobRef = doc(txtDB, 'jobs', id);
+      await updateDoc(jobRef, {
+          title: title,
+          details: details,
+      });
+
+      res.status(200).json('Job has been updated');
+  } catch (error) {
+      res.status(500).json(error);
+  }
+};
 
 //create function to delete job from database 
 export const deletejob = async (req, res) => {
@@ -87,3 +107,8 @@ export const submitjob = async (req, res) => {
         res.status(500).json(error);
     }
 }
+
+
+
+
+
