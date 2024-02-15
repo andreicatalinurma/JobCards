@@ -1,23 +1,20 @@
 import React, { useState, useEffect} from 'react';
 import { storage } from '../firebase';
-import { ref, uploadBytes, listAll, getDownloadURL, getStorage, deleteObject, uploadBytesResumable } from 'firebase/storage';
+import { ref, listAll, getDownloadURL, getStorage, deleteObject, uploadBytesResumable } from 'firebase/storage';
 import { v4 } from 'uuid';
-import {getValues} from './JobCards';
-import { set } from 'mongoose';
-
 
 
 export default function EditJob() {
-    const data = getValues();
     const [imageUpload, setImageUpload] = useState(null);
     const [imageList, setImageList] = useState([]);
     const [ imagePercent, setImagePercent ] = useState(0);
     const [ imageError, setImageError ] = useState(false);
     const [titleUpdate, setTitleUpdate] = useState('');
     const [detailsUpdate, setDetailsUpdate] = useState('');
-    const id = data.id;
-    const title = data.title;
-    const details = data.details;
+    
+    let id = sessionStorage.getItem('id');
+    let title = sessionStorage.getItem('title');
+    let details = sessionStorage.getItem('details');
 
     // Create a reference for all images stored in the storage
     const imageListRef = ref(storage, `jobs/${id}`);

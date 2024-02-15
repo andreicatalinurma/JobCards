@@ -1,10 +1,6 @@
 import React, { useState} from 'react';
 import { Link } from 'react-router-dom';
 
-//array to store id and title of job to be edited
-var idTitle = [];
-//function to store id and title of job to be edited
-export function getValues() { return idTitle;}
 
 export default function JobCards(props) {
     //set the state for the strike through effect on the job
@@ -50,7 +46,9 @@ export default function JobCards(props) {
 
     function handleEdit() {
         //edit the job
-        idTitle = props;
+        sessionStorage.setItem('id', props.id);
+        sessionStorage.setItem('title', props.title);
+        sessionStorage.setItem('details', props.details);
     }
 
 
