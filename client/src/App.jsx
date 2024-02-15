@@ -1,8 +1,9 @@
 import {useState, useEffect } from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
-import Home from './pages/Home';
+import About from './pages/About';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import EditJob from './pages/EditJob';
 import Profile from './pages/Profile';
 import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
@@ -16,10 +17,14 @@ export default function App() {
 
   const getJobs = async () => {
     //fetch the jobs from the server and store them in the state
-    const response = await fetch('/backend/job/getjobs');
-    const data = await response.json();
-    setJobs(data);
-    getJobs();
+    try {
+      const response = await fetch('/backend/job/getjobs');
+      const data = await response.json();
+      setJobs(data);
+      getJobs();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -29,9 +34,10 @@ export default function App() {
   return <BrowserRouter>
   <Header />
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<About />} />
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
+      <Route path='/editjob' element={<EditJob/>}/>
       <Route path='/jobcards' element={
         <>
         <CreateJobCardArea/>

@@ -14,8 +14,8 @@ export default function Header() {
             <Link to='/'>
                 <h1 className='font-bold'>Job Cards</h1>
             </Link>
-            <ul className='flex gap-4'>
-                 <Link to='/'><li>Home</li></Link>
+            <ul className='flex font-bold gap-4'>
+                 <Link to='/'><li>About</li></Link>
                 {currentUser ? <Link to='/jobcards'><li>JobCards</li></Link> : null}
                 <Link to='/profile'>
                 {currentUser ? (

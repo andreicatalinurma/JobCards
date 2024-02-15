@@ -37,17 +37,15 @@ export default function JobCards(props) {
         try {
             //if user confirms delete, send a delete request to the server
             if(confirmDelete) {
-                const response = fetch(`/backend/job/deletejob/${id}`, {  
+                fetch(`/backend/job/deletejob/${id}`, {  
                     method: 'DELETE',            
                 });
-                
             } else {
                 alert('Delete cancelled');
             }
         } catch (error) {
             console.log(error);
         }
-
     }
 
     function handleEdit() {

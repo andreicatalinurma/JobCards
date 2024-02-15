@@ -1,9 +1,9 @@
 import React, { useState, useEffect} from 'react';
 import { storage } from '../firebase';
-import { ref, uploadBytes, listAll, getDownloadURL, getStorage, deleteObject } from 'firebase/storage';
+import { ref, uploadBytes, listAll, getDownloadURL, getStorage, deleteObject, uploadBytesResumable } from 'firebase/storage';
 import { v4 } from 'uuid';
-import {  doc, updateDoc } from "firebase/firestore";
 import {getValues} from './JobCards';
+import { set } from 'mongoose';
 
 
 
@@ -11,31 +11,39 @@ export default function EditJob() {
     const data = getValues();
     const [imageUpload, setImageUpload] = useState(null);
     const [imageList, setImageList] = useState([]);
-
+    const [ imagePercent, setImagePercent ] = useState(0);
+    const [ imageError, setImageError ] = useState(false);
     const [titleUpdate, setTitleUpdate] = useState('');
     const [detailsUpdate, setDetailsUpdate] = useState('');
     const id = data.id;
     const title = data.title;
     const details = data.details;
 
-
     // Create a reference for all images stored in the storage
     const imageListRef = ref(storage, `jobs/${id}`);
-    
     // Function to upload image to the storage
     const uploadImage = (e) => {
         e.preventDefault();
         if(titleUpdate !== '' || detailsUpdate !== '' || title !== '' || details !== '') {
-            if(imageUpload === null) return;
+            if(imageUpload === null || id === undefined) return;
         // Create a reference to the image in the storage
         const imageRef = ref(storage, `jobs/${id}/${imageUpload.name + v4()}`);
-        // Upload image to the path 'images/'
-        uploadBytes(imageRef, imageUpload).then((snapshot) => { 
-            // Get the download URL of the image and store it in the imageList state array to update the UI with the last uploaded image
-            getDownloadURL(snapshot.ref).then((url) => {
-                setImageList(prevArray => [...prevArray, url]);
+        // Upload the image to the storage and update the imageList state array to display the uploaded image in the UI
+        const uploadTask = uploadBytesResumable(imageRef, imageUpload);
+        uploadTask.on('state_changed', (snapshot) => {
+            // Get the percentage of the image upload progress and update the imagePercent state
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setImagePercent(Math.round(progress));
+        },
+        (error) => {
+            setImageError(error);
+        },
+        () => {
+            // Get the download URL of the uploaded image and update the imageList state array
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                setImageList(prevArray => [...prevArray, downloadURL]);
             });
-        });
+        })
         }
     };
     
@@ -43,6 +51,7 @@ export default function EditJob() {
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
+            // Send a post request to the server to update the job title and details in the database
             const response = await fetch(`/backend/job/updatejob/${id}`, {
                 method: 'POST',
                 headers: {
@@ -121,6 +130,17 @@ export default function EditJob() {
             className='relative float-left m-0 w-48 px-1 py-1 text-gray-700 font-medium leading-5 transition duration-150 ease-in-out sm:text-sm sm:leading-4'/>
             
           </form>
+          <p className='flex justify-center text-lg self-center'>
+          {imageError ? (
+            <span className='text-red-700'>
+              Error uploading image
+            </span>
+          ) : imagePercent > 0 && imagePercent < 100 ? (
+            <span className='text-slate-700'>{`Uploading: ${imagePercent} %`}</span>
+          ) : imagePercent === 100 ? (
+            <span className='text-green-700'>Image uploaded successfully</span>
+          ) : ('')}
+          </p>
           <form onSubmit={(e) => e.preventDefault()} 
           className='flex-wrap max-w-screen-xl mx-auto rounded-lg '>
             <div className='flex flex-wrap justify-around  rounded-lg  p-1 gap-1'>
