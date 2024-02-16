@@ -5,6 +5,7 @@ import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import jobRoutes from './routes/job.route.js';
 import cookieParser from 'cookie-parser';
+import path from 'path';
 dotenv.config();
 
 
@@ -16,12 +17,24 @@ mongoose.connect(process.env.MONGO)
     console.log(err)
 })
 
-const app = express();
- 
+//set the __dirname to the current working directory
+const __dirname = path.resolve();
 
+const app = express();
+
+//middleware to serve static files
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+//serve the index.html file if the user hits the root url 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
+
+//middleware to parse the request body
 app.use(express.json());
 app.use(cookieParser());
 
+//middleware to serve static files
 app.use("/backend/user", userRoutes);
 app.use("/backend/auth", authRoutes);
 app.use("/backend/job", jobRoutes);
