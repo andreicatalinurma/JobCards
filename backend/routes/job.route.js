@@ -11,15 +11,15 @@ import {
 const router = express.Router();   
 
 //create route to get all jobs
-router.get('/getjobs', getjobs);
+router.get('/getjobs/:user', getjobs);
 //create route to update job status
-router.post('/strikejob/:id', strikejob);
+router.post('/strikejob/:user/:id', strikejob);
 //create route to delete job
-router.delete('/deletejob/:id', deletejob);
+router.delete('/deletejob/:user/:id', deletejob);
 //create route to submit job
-router.post('/submitjob', submitjob);
+router.post('/submitjob/:user', submitjob);
 //create route to update job title and details
-router.post('/updatejob/:id', updatejob);
+router.post('/updatejob/:user/:id', updatejob);
 
 
 

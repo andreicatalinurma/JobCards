@@ -10,22 +10,26 @@ import PrivateRoute from './components/PrivateRoute';
 import Footer from './components/Footer';
 import JobCards from './pages/JobCards';
 import CreateJobCardArea from './components/CreateJobCardArea';
+import { useSelector } from 'react-redux';
 
 export default function App() {
   //state to store the jobs from the server
   const [jobs, setJobs] = useState([]);
+  const {currentUser} = useSelector(state => state.user);
 
   const getJobs = async () => {
     //fetch the jobs from the server and store them in the state
     try {
-      const response = await fetch('/backend/job/getjobs');
+      const response = await fetch(`/backend/job/getjobs/${currentUser.username}`);
       const data = await response.json();
       setJobs(data);
-      getJobs();
+      //getJobs();
     } catch (error) {
       console.log(error);
     }
   }
+  getJobs();
+
 
   useEffect(() => {
     getJobs();
@@ -35,8 +39,8 @@ export default function App() {
   <Header />
     <Routes>
       <Route path="/" element={<About />} />
-      <Route path="/sign-in" element={<SignIn />} />
-      <Route path="/sign-up" element={<SignUp />} />
+      <Route path="/sign-in" element={<SignIn/>} />
+      <Route path="/sign-up" element={<SignUp/>} />
       <Route path='/editjob' element={<EditJob/>}/>
       <Route path='/jobcards' element={
         <>

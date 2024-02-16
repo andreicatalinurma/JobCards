@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 export default function Header() {
   //selecting the current user from the redux store
   const {currentUser} = useSelector(state => state.user);
-
   return (
     
     <div className='bg-slate-400'>
@@ -16,7 +15,7 @@ export default function Header() {
             </Link>
             <ul className='flex font-bold gap-4'>
                  <Link to='/'><li>About</li></Link>
-                {currentUser ? <Link to='/jobcards'><li>JobCards</li></Link> : null}
+                {currentUser ? <Link to='/jobcards'><li>JobCards {currentUser.username}</li></Link> : null}
                 <Link to='/profile'>
                 {currentUser ? (
                   <img src = {currentUser.profilePicture} alt='profile' className='h-7 w-7 rounded-full object-cover' />

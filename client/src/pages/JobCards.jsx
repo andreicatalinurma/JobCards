@@ -1,17 +1,19 @@
 import React, { useState} from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 export default function JobCards(props) {
     //set the state for the strike through effect on the job
     const [strikeThrough, setStrikeThrough] = useState(props.completed);
+    const {currentUser} = useSelector(state => state.user);
 
 
     async function toggleStrikeThrough(id) {
         //toggle the strike through effect
         try {
             //send a post request to the server to update the job as completed or not
-            const response = await fetch(`/backend/job/strikejob/${id}`, {
+            const response = await fetch(`/backend/job/strikejob/${currentUser.username}/${id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -33,7 +35,7 @@ export default function JobCards(props) {
         try {
             //if user confirms delete, send a delete request to the server
             if(confirmDelete) {
-                fetch(`/backend/job/deletejob/${id}`, {  
+                fetch(`/backend/job/deletejob/${currentUser.username}/${id}`, {  
                     method: 'DELETE',            
                 });
             } else {

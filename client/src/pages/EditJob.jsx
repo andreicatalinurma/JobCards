@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react';
 import { storage } from '../firebase';
 import { ref, listAll, getDownloadURL, getStorage, deleteObject, uploadBytesResumable } from 'firebase/storage';
 import { v4 } from 'uuid';
+import { useSelector } from 'react-redux';
 
 
 export default function EditJob() {
@@ -11,20 +12,24 @@ export default function EditJob() {
     const [ imageError, setImageError ] = useState(false);
     const [titleUpdate, setTitleUpdate] = useState('');
     const [detailsUpdate, setDetailsUpdate] = useState('');
-    
+      //selecting the current user from the redux store
+    const {currentUser} = useSelector(state => state.user);
+
     let id = sessionStorage.getItem('id');
     let title = sessionStorage.getItem('title');
     let details = sessionStorage.getItem('details');
 
+    //let currentUser = sessionStorage.getItem('currentUser');
     // Create a reference for all images stored in the storage
-    const imageListRef = ref(storage, `jobs/${id}`);
+    const imageListRef = ref(storage, `jobs/${currentUser.username}/${id}`);
+
     // Function to upload image to the storage
     const uploadImage = (e) => {
         e.preventDefault();
         if(titleUpdate !== '' || detailsUpdate !== '' || title !== '' || details !== '') {
             if(imageUpload === null || id === undefined) return;
         // Create a reference to the image in the storage
-        const imageRef = ref(storage, `jobs/${id}/${imageUpload.name + v4()}`);
+        const imageRef = ref(storage, `jobs/${currentUser.username}/${id}/${imageUpload.name + v4()}`);
         // Upload the image to the storage and update the imageList state array to display the uploaded image in the UI
         const uploadTask = uploadBytesResumable(imageRef, imageUpload);
         uploadTask.on('state_changed', (snapshot) => {
@@ -49,7 +54,7 @@ export default function EditJob() {
         e.preventDefault();
         try {
             // Send a post request to the server to update the job title and details in the database
-            const response = await fetch(`/backend/job/updatejob/${id}`, {
+            const response = await fetch(`/backend/job/updatejob/${currentUser.username}/${id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

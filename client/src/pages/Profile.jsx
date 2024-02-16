@@ -147,7 +147,7 @@ export default function Profile() {
         placeholder='Username' 
         id='username' 
         className='bg-slate-100 p-3 rounded-lg' 
-        onChange={handleChange}
+        readOnly="readonly"
         />
 
         <input defaultValue={currentUser.email} 

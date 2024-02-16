@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 
 export default function CreateJobCardArea() {
+    //selecting the current user from the redux store
+    const {currentUser} = useSelector(state => state.user);
+
   // State to store the job details from the input
     const [job, setJob] = useState({
+        user: currentUser.username,
         title: '',
         details: '',
         completed: false
@@ -27,7 +32,7 @@ export default function CreateJobCardArea() {
       try {
         //send a post request to the server to add the job to the database
           if(job.title !== '' && job.details !== '') {
-            const response = await fetch('/backend/job/submitjob', {
+            const response = await fetch(`/backend/job/submitjob/${currentUser.username}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
